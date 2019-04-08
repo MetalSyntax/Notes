@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Notes</title>
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" />
+    <link type="text/css" rel="stylesheet" href="css/icon.css" />
+    <link type="text/css" rel="stylesheet" href="build/style.min.css" />
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/angular-route.min.js"></script>
+</head>
+
+<body ng-app='AppNote'>
+
+    <nav>
+        <div class="nav-wrapper grey lighten-5">
+            <a href="#!" class="brand-logo grey-text" ng-controller="Titulo"><i class="material-icons">note</i>{{title}}</a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger grey-text"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+
+    <ul class="sidenav" id="mobile-demo">
+        <li>
+            <div class="user-view">
+                <div class="background">
+                    <img src="img/material-wallpaper.jpg">
+                </div>
+                <a href="#user"><img class="circle" src="img/options.png"></a>
+                <a href="#name"><span class="white-text name">MetalSyntax</span></a>
+                <a href="#email"><span class="white-text email">metalsyntax@gmail.com</span></a>
+            </div>
+        </li>
+        <li><a class="waves-effect" href="#!"><i class="material-icons">note</i>Notas</a></li>
+        <li>
+            <div class="divider"></div>
+        </li>
+        <li><a class="waves-effect" href="#!"><i class="material-icons">label_outline</i>Books</a></li>
+    </ul>
+
+        <div class="nav-wrapper z-depth-2" id="buscador">
+            <form>
+                <div class="input-field">
+                    <input id="search" type="search" ng-model="buscar">
+                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                    <i class="material-icons">close</i>
+                </div>
+            </form>
+        </div>
+
+        <div class="col s12 m12 l12" id="notas">
+            <div class="row" ng-controller="filtroNotas">
+                <div class="col s12 m6 l4" ng-repeat="Notes in ItemNotes | filter:buscar">
+                    <div class="card yellow lighten-5">
+                        <div class="card-content black-text">
+                            <span class="card-title">{{Notes.title}}</span>
+                            <p>{{Notes.message}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fixed-action-btn">
+            <a class="btn-floating btn-large modal-trigger yellow" href="#modal-principal">
+                <i class="large material-icons">mode_edit</i>
+            </a>
+        </div>
+        <div id="modal-principal" class="modal">
+            <div class="modal-content">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="icon_prefix" type="text" class="validate">
+                            <label for="icon_prefix">Titulo</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <textarea id="icon_prefix2" class="materialize-textarea"></textarea>
+                            <label for="icon_prefix2">Mensaje</label>
+                        </div>
+                    </div>
+                </form>
+                <div id="modal-footer">
+                    <a href="#!" class="modal-close waves-effect waves-green btn-flat right">Cerrar</a>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="js/materialize.min.js"></script>
+        <script type="text/javascript" src="build/app.min.js"></script>
+</body>
+
+</html>
