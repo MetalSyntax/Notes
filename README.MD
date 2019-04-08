@@ -21,7 +21,7 @@ Notes está licenciado bajo la licencia MIT.(http://opensource.org/licenses/MIT)
 
 Codigo Fuente:
 
-- Notes: https://github.com/MetalSyntax/
+- Notes: https://github.com/MetalSyntax/Notes
 
 Donaciones:
 
