@@ -24,4 +24,4 @@ $RECYCLE.BIN/
 node_modules
 .sass-cache
 .git
-package-lock.json
+.json
