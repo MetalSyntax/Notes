@@ -54,8 +54,8 @@ AppNotes.controller('Titulo', ["$scope", function ($scope) {
     $scope.saved = localStorage.getItem('note');
     //Notas
     $scope.NoteList = (localStorage.getItem('note') !== null) ? JSON.parse($scope.saved) : [{
-        title: 'Learn AngularJS',
-        message: 'Is Easy'
+        title: 'Welcome to Notes',
+        message: 'This is a Web App Developing in Angular JS'
     }];
     //Guardar Notas
     localStorage.setItem('note', JSON.stringify($scope.NoteList));
