@@ -12,8 +12,8 @@ body, html {
   margin: 10px;
   padding: 10px; }
 
-.brand-logo {
-  margin-left: 10px; }
+#modal-principal {
+  padding: 10px; }
 
 #slide-out .user-view .background {
   overflow: hidden;
@@ -28,9 +28,8 @@ body, html {
   height: auto;
   padding: 0; }
 
-@media only screen and (max-width: 600px) {
-  #slide-out {
-    display: none; } }
+.brand-logo {
+  margin-left: 10px; }
 
 .sidenav .user-view .background {
   overflow: hidden;
@@ -41,8 +40,9 @@ body, html {
   left: 0;
   z-index: -1; }
 
-#modal-principal {
-  padding: 10px; }
-
 .tags {
   padding-left: 30px; }
+
+@media only screen and (max-width: 600px) {
+  #slide-out {
+    display: none; } }

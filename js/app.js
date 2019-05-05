@@ -17,61 +17,73 @@
 
  /*Angular*/
  var AppNotes = angular.module('AppNote', ['ngRoute']);
+
+  //Rutas
+  AppNotes.config(['$routeProvider',
+      function ($routeProvider) {
+          $routeProvider
+              .when('/', {
+                  templateUrl: '../index.html'
+              })
+              .when('/Terms', {
+                  templateUrl: '../html/Terms.html'
+              })
+              .when('/Setting', {
+                  templateUrl: '../html/setting.html'
+              })
+              .otherwise({
+                  redirectTo: '/'
+              })
+      }
+  ]);
+
  /*Titulo*/
- AppNotes.controller('Titulo', ["$scope", function ($scope) {
+AppNotes.controller('Titulo', ["$scope", function ($scope) {
      $scope.title = "Notes";
- }]);
+    }]);
+
  /*Usuario y Correo*/
  AppNotes.controller('Usuario', ["$scope", function ($scope) {
-     $scope.user = "MetalSyntax";
-     $scope.email = "metalsyntax@gmail.com";
+     $scope.user = "Admin";
+     $scope.email = "Admin@gmail.com";
  }]);
- /*Obtencion de Datos
- AppNotes.controller('NotasDemo', ['$scope', '$http', function ($scope, $http) {
-     $http({
-         method: 'GET',
-         url: 'js/notes.json'
-     }).then(function (Notes) {
-         $scope.ItemNotes = Notes.data;
-     }).then(function (error) {
-         //console.log(error);
-     });
- }]);*/
+
  /*Crear Notas*/
  AppNotes.controller('NewNotes', ['$scope', function ($scope) {
-    //Notas de Prueba
-    $scope.NoteList = [{
-             title: 'Do nothing',
-             message: 'Lorem'
-         },
-         {
-             title: 'Show some tasks',
-             message: 'Lorem'
-         },
-         {
-             title: 'Add a task',
-             message: 'Lorem'
-         },
-         {
-             title: 'Walk the dog',
-             message: 'Lorem'
-         }, {
-             title: 'New a task',
-             message: 'Lorem'
-         }, {
-             title: 'Eat Hotdog',
-             message: 'Lorem'
-         }
-     ];
+    //Obtener Notas
+    $scope.saved = localStorage.getItem('note');
+    //Notas
+    $scope.NoteList = (localStorage.getItem('note') !== null) ? JSON.parse($scope.saved) : [{
+        title: 'Learn AngularJS',
+        message: 'Is Easy'
+    }];
+    //Guardar Notas
+    localStorage.setItem('note', JSON.stringify($scope.NoteList));
+
      //Agregar una Nueva Nota
-     $scope.add = function (title,message) {
-       $scope.NoteList.push({
-        title: title,
-        message: message
-       });
+     $scope.add = function(title, message) {
+        $scope.NoteList.push({
+            title: title,
+            message: message,
+         });
+         $scope.title = "";
+         $scope.message = "";
+         localStorage.setItem('note', JSON.stringify($scope.NoteList));
      };
+ 
      //Borrar una Nota
      $scope.delete = function () {
+        index = $scope.NoteList.indexOf();
         $scope.NoteList.splice(this.$index, 1);
+        localStorage.setItem('note', JSON.stringify($scope.NoteList));
      };
+
  }]);
+
+ /*Cambiar Colores*/
+ AppNotes.controller("ColorChange", function ($scope) {
+    $scope.Color = 'default';
+ });
+ 
+
+

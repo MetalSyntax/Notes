@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,24 +8,23 @@
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css" />
     <link type="text/css" rel="stylesheet" href="css/icon.css" />
     <link type="text/css" rel="stylesheet" href="build/style.min.css" />
+    <script type="text/javascript" src="lib/lodash.min.js"></script>
     <script type="text/javascript" src="lib/angular.min.js"></script>
     <script type="text/javascript" src="lib/angular-route.min.js"></script>
-    <script type="text/javascript" src="lib/ngStorage.min.js"></script>
     <script type="text/javascript" src="lib/materialize.min.js"></script>
   </head>
 
   <body ng-app="AppNote" ng-controller="NewNotes">
+
     <!--Barra de Navegacion-->
     <nav>
-      <div class="nav-wrapper grey lighten-5">
-        <a href="#!" class="brand-logo grey-text" ng-controller="Titulo"
-          ><i class="material-icons">note</i>{{ title }}</a
-        >
-        <a href="#" data-target="mobile-demo" class="sidenav-trigger grey-text"
-          ><i class="material-icons">menu</i></a
-        >
+      <div class="nav-wrapper yellow">
+        <a href="#!" class="brand-logo white-text" ng-controller="Titulo"><i class="material-icons">note</i>{{ title }}</a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger white-text"><i class="material-icons">menu</i></a>
       </div>
     </nav>
+    <!--Barra de Navegacion-->
+
     <!--Barra de Navegacion Lateral-->
     <ul class="sidenav" id="mobile-demo">
       <li>
@@ -45,11 +44,7 @@
         <div class="divider"></div>
       </li>
       <li class="tags">ETIQUETAS</li>
-      <li>
-        <a class="waves-effect" href="#!"
-          ><i class="material-icons">label_outline</i>Libros</a
-        >
-      </li>
+      <li><a class="waves-effect" href="#!"><i class="material-icons">label_outline</i>Libros</a></li>
     <div class="divider"></div>  
       <div class="Notes-Sidebar">
         <li><a href="#!"><i class="material-icons">folder_special</i>Archivadas</a></li>
@@ -58,9 +53,11 @@
     <div class="divider"></div>
       <div class="Options-Sidebar">
         <li><a href="#!"><i class="material-icons">refresh</i>Actualizar</a></li>
-        <li><a href="#!"><i class="material-icons">settings</i>Ajustes</a></li>
+        <li><a href="#!/Setting"><i class="material-icons">settings</i>Ajustes</a></li>
       </div>
     </ul>
+    <!--Barra de Navegacion Lateral-->
+
     <!--Buscador-->
     <div class="nav-wrapper z-depth-2" id="buscador">
       <form>
@@ -73,10 +70,12 @@
         </div>
       </form>
     </div>
+    <!--Buscador-->
+
     <!--Notas-->
     <div class="col s12 m12 l12" id="notas">
       <div class="row">
-        <div class="col s12 m6 l4" ng-repeat="Notes in NoteList | filter:buscar">
+        <div class="col s12 m6 l4" ng-repeat="Notes in NoteList | filter:buscar track by $index">
           <div class="card grey lighten-5">
             <div class="card-content black-text">
               <span class="card-title">{{ Notes.title }}</span>
@@ -86,6 +85,8 @@
               <a href="#" class="grey-text"><i class="material-icons">color_lens</i></a>
               <a href="#" class="grey-text"><i class="material-icons">attach_file</i></a>
               <a href="#" class="grey-text"><i class="material-icons">archive</i></a>
+              <a href="#modal-principal" class="grey-text modal-trigger" ng-click="edit()"><i
+                  class="material-icons">edit</i></a>
               <a href="#" class="grey-text" ng-click="delete()"><i class="material-icons">delete</i></a>
             <a href="#" class="grey-text"><i class="material-icons">more_vert</i></a>
             </div>
@@ -93,12 +94,16 @@
         </div>
       </div>
     </div>
+    <!--Notas-->
+
     <!--Boton Flotante-->
     <div class="fixed-action-btn">
-      <a class="btn-floating btn-large modal-trigger waves-effect waves-yellow yellow" href="#modal-principal">
+      <a class="btn-floating btn-large modal-trigger waves-effect waves-yellow yellow darken-1" href="#modal-principal">
         <i class="large material-icons">mode_edit</i>
       </a>
     </div>
+    <!--Boton Flotante-->
+
     <!--Formulario-->
     <div id="modal-principal" class="modal">
       <div class="modal-content">
@@ -119,12 +124,13 @@
         <div id="modal-footer">
           <a href="#" class="grey-text waves-effect waves-gray btn-flat"><i class="material-icons">color_lens</i></a>
           <a href="#" class="grey-text waves-effect waves-gray btn-flat"><i class="material-icons">attach_file</i></a>
-          <a href="#" class="grey-text waves-effect waves-gray btn-flat"><i class="material-icons">archive</i></a>
+          <a href="#" class="grey-text waves-effect waves-gray btn-flat"><i class="material-icons">label_outline</i></a>
           <a href="#" class="grey-text waves-effect waves-gray btn-flat"><i class="material-icons">more_vert</i></a>
           <a href="#!" class="modal-close waves-effect waves-gray btn-flat right" ng-click="add(title,message)">Aceptar</a>
         </div>
       </div>
     </div>
+    <!--Formulario-->
 
     <script type="text/javascript" src="build/app.min.js"></script>
   </body>
