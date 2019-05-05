@@ -23,13 +23,13 @@
       function ($routeProvider) {
           $routeProvider
               .when('/', {
-                  templateUrl: '../index.html'
+                  templateUrl: 'index.html'
               })
               .when('/Terms', {
-                  templateUrl: '../html/Terms.html'
+                  templateUrl: 'html/Terms.html'
               })
               .when('/Setting', {
-                  templateUrl: '../html/setting.html'
+                  templateUrl: 'html/setting.html'
               })
               .otherwise({
                   redirectTo: '/'
