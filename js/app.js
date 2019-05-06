@@ -23,13 +23,16 @@
       function ($routeProvider) {
           $routeProvider
               .when('/', {
-                  templateUrl: 'index.html'
+                  templateUrl: 'html/main.html'
               })
               .when('/Terms', {
-                  templateUrl: 'html/Terms.html'
+                  templateUrl: 'html/terms.html'
               })
-              .when('/Setting', {
+              .when('/Settings', {
                   templateUrl: 'html/setting.html'
+              })
+              .when('/Form', {
+                  templateUrl: 'html/form.html'
               })
               .otherwise({
                   redirectTo: '/'
@@ -50,6 +53,7 @@ AppNotes.controller('Titulo', ["$scope", function ($scope) {
 
  /*Crear Notas*/
  AppNotes.controller('NewNotes', ['$scope', function ($scope) {
+    
     //Obtener Notas
     $scope.saved = localStorage.getItem('note');
     //Notas
@@ -70,6 +74,11 @@ AppNotes.controller('Titulo', ["$scope", function ($scope) {
          $scope.message = "";
          localStorage.setItem('note', JSON.stringify($scope.NoteList));
      };
+
+     //Editar una Nota
+     $scope.edit = function (title, message) {
+         
+     }
  
      //Borrar una Nota
      $scope.delete = function () {
@@ -78,12 +87,27 @@ AppNotes.controller('Titulo', ["$scope", function ($scope) {
         localStorage.setItem('note', JSON.stringify($scope.NoteList));
      };
 
- }]);
+     //Flow Text
+     $scope.flow = "";
+     // Agregar Remover Flow Text
+     $scope.addRemoveFlowClass = function () {
+         if ($scope.flow) {
+             $scope.flow = "";
+         } else {
+             $scope.flow = "flow-text";
+         }
+     };
 
- /*Cambiar Colores*/
- AppNotes.controller("ColorChange", function ($scope) {
-    $scope.Color = 'default';
- });
+    //Colores
+     $scope.color = "grey lighten-5";
+    // Cambiar Colores
+     $scope.addRemoveColorClass = function () {
+         ArrayColor = ['blue', 'red', 'yellow', 'green', 'cyan', 'indigo' , 'teal' ,'grey lighten-5'];
+        RandomColor = Math.floor(Math.random() * ArrayColor.length);
+         $scope.color = ArrayColor[RandomColor]
+     };
+
+ }]);
  
 
 
