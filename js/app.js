@@ -14,6 +14,7 @@
          hoverEnabled: false
      });
  });
+ 
 
  /*Angular*/
  var AppNotes = angular.module('AppNote', ['ngRoute']);
@@ -31,8 +32,17 @@
               .when('/Settings', {
                   templateUrl: 'html/setting.html'
               })
-              .when('/Form', {
-                  templateUrl: 'html/form.html'
+              .when('/Add', {
+                  templateUrl: 'html/add.html'
+              })
+               .when('/Edit', {
+                   templateUrl: 'html/edit.html'
+               })
+              .when('/Help', {
+                  templateUrl: 'html/help.html'
+              })
+              .when('/About', {
+                  templateUrl: 'html/about.html'
               })
               .otherwise({
                   redirectTo: '/'
@@ -58,7 +68,7 @@ AppNotes.controller('Titulo', ["$scope", function ($scope) {
     $scope.saved = localStorage.getItem('note');
     //Notas
     $scope.NoteList = (localStorage.getItem('note') !== null) ? JSON.parse($scope.saved) : [{
-        title: 'Welcome to Notes',
+        title: 'Welcome to Syntax Notes',
         message: 'This is a Web App Developing in Angular JS'
     }];
     //Guardar Notas
@@ -68,18 +78,37 @@ AppNotes.controller('Titulo', ["$scope", function ($scope) {
      $scope.add = function(title, message) {
         $scope.NoteList.push({
             title: title,
-            message: message,
+            message: message
          });
          $scope.title = "";
          $scope.message = "";
          localStorage.setItem('note', JSON.stringify($scope.NoteList));
      };
 
-     //Editar una Nota
+    //Editar una Nota
      $scope.edit = function (title, message) {
-         
-     }
- 
+        //Obtiene los valores
+        ArrayNote = localStorage.getItem('note');
+        ArrayNote = JSON.parse(ArrayNote);
+        //Inserta los valores
+        $scope.title = ArrayNote[this.$index].title;
+        $scope.message = ArrayNote[this.$index].message;
+        //Borrado de datos
+        index = $scope.NoteList.indexOf();
+        $scope.NoteList.splice(this.$index, 1);
+        //Actualizacion
+    $scope.update = function (title, message) {
+        //Agregar nuevo cambio
+        $scope.NoteList.push({
+            title: title,
+            message: message
+        });
+        $scope.title = "";
+        $scope.message = "";
+        localStorage.setItem('note', JSON.stringify($scope.NoteList));
+    };
+    };
+
      //Borrar una Nota
      $scope.delete = function () {
         index = $scope.NoteList.indexOf();
@@ -88,23 +117,26 @@ AppNotes.controller('Titulo', ["$scope", function ($scope) {
      };
 
      //Flow Text
-     $scope.flow = "";
+     $scope.flow = localStorage.getItem('flow');
      // Agregar Remover Flow Text
      $scope.addRemoveFlowClass = function () {
          if ($scope.flow) {
              $scope.flow = "";
+             localStorage.setItem('flow', $scope.flow);
          } else {
              $scope.flow = "flow-text";
+             localStorage.setItem('flow', $scope.flow);
          }
      };
 
     //Colores
-     $scope.color = "grey lighten-5";
+     $scope.color = localStorage.getItem('color');
     // Cambiar Colores
      $scope.addRemoveColorClass = function () {
-         ArrayColor = ['blue', 'red', 'yellow', 'green', 'cyan', 'indigo' , 'teal' ,'grey lighten-5'];
+         ArrayColor = ['light-blue lighten-3', ' red lighten-3', 'pink lighten-3', 'purple lighten-3', 'deep-purple lighten-3', 'indigo lighten-3', 'blue lighten-3', 'grey lighten-3', 'blue-grey lighten-3', 'cyan lighten-3', 'teal lighten-3', 'green lighten-3', 'light-green lighten-3', 'lime lighten-3', ' yellow lighten-3', ' amber lighten-3', 'orange lighten-3', 'deep-orange lighten-3'];
         RandomColor = Math.floor(Math.random() * ArrayColor.length);
-         $scope.color = ArrayColor[RandomColor]
+         $scope.color = ArrayColor[RandomColor];
+         localStorage.setItem('color', $scope.color);
      };
 
  }]);

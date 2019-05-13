@@ -20,14 +20,16 @@
                      <p>{{ Notes.message }}</p>
                  </div>
                  <div class="card-action">
-                     <a href="#" class="grey-text waves-effect waves-gray" ng-click='addRemoveColorClass()'><i
+                     <a href="#" class="black-text waves-effect waves-gray" ng-click='addRemoveColorClass()'><i
                              class="material-icons">color_lens</i></a>
-                     <a href="#" class="grey-text waves-effect waves-gray" ng-click='addRemoveFlowClass($index)'><i
+                     <a href="#" class="black-text waves-effect waves-gray" ng-click='addRemoveFlowClass($index)'><i
                              class="material-icons">text_fields</i></a>
-                     <!--<a href="#" class="grey-text"><i class="material-icons">attach_file</i></a>-->
-                     <!--<a href="#" class="grey-text"><i class="material-icons">archive</i></a>-->
-                     <a href="" class="grey-text waves-effect waves-gray" ng-click="edit()"><i class="material-icons">edit</i></a>
-                     <a href="#" class="grey-text waves-effect waves-gray" ng-click="delete()"><i class="material-icons">delete</i></a>
+                     <!--<a href="#" class="grey-text"><i class="material-icons">attach_file</i></a>
+                     <a href="#" class="grey-text"><i class="material-icons">archive</i></a>-->
+                     <a href="#!/Edit" class="black-text waves-effect waves-gray" ng-click="edit(title,message)"><i
+                             class="material-icons">edit</i></a>
+                     <a href="#" class="black-text waves-effect waves-gray" ng-click="delete()"><i
+                             class="material-icons">delete</i></a>
                      <!--<a href="#" class="grey-text"><i class="material-icons">more_vert</i></a>-->
                  </div>
              </div>
@@ -38,7 +40,7 @@
 
  <!--Boton Flotante-->
  <div class="fixed-action-btn">
-     <a class="btn-floating btn-large modal-trigger waves-effect waves-yellow yellow darken-1 pulse" href="#!/Form">
+     <a class="btn-floating btn-large modal-trigger waves-effect waves-yellow yellow darken-1 pulse" href="#!/Add">
          <i class="large material-icons">mode_edit</i>
      </a>
  </div>
