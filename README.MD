@@ -1,28 +1,28 @@
-# Notes
-Derechos de Autor (C) 2019 Wonder Diaz
+**# Notes**
 
-Aplicacion que permite guardar informacion a través del archivo de notas.
+**Copyright (C) 2019 Wonder Diaz**
 
-## Inicio Rapido
-- Instalar dependencias Node.js utilizando `npm install` en el directorio
-- Ejecutar `gulp watch` para realizar cambios en el codigo.
+**Notes** is a web application that allows you to save and organize your personal information. It features a simple and intuitive interface, making it easy to take notes, create lists, and keep track of your thoughts and ideas.
 
-## Caracteristicas
-Notes es una aplicacion web que permitira llevar registros personales
+**Features:**
 
-- Filtro de Notas
-- Diseño Adaptable
+* **Note taking:** Create and edit notes with ease, using a variety of formatting options.
+* **List management:** Create and manage to-do lists, shopping lists, and more.
+* **Filtering:** Easily find the notes you need by filtering by title, tag, or date.
+* **Responsive design:** Notes looks great on any device, from desktops to smartphones.
 
-## Licencia
+**Getting Started:**
 
-Notes está licenciado bajo la licencia MIT.(http://opensource.org/licenses/MIT)
+1. Install Node.js and npm.
+2. Clone the repository: `git clone https://github.com/MetalSyntax/Notes.git`
+3. Navigate to the project directory: `cd Notes`
+4. Install the project's dependencies: `npm install`
+5. Start the development server: `gulp watch`
 
-## Enlaces
+**Contributing:**
 
-Codigo Fuente:
+If you would like to contribute to Notes, please fork the repository and submit a pull request.
 
-- Notes: https://github.com/MetalSyntax/Notes
+**License:**
 
-Donaciones:
-
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](paypal.me/MetalSyntax)
+Notes is licensed under the MIT license. ([http://opensource.org/licenses/MIT](http://opensource.org/licenses/MIT))
