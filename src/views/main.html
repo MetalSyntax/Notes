@@ -4,7 +4,7 @@
          <div class="input-field">
              <input id="search" type="search" ng-model="buscar" />
              <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-             <i class="material-icons">close</i>
+             <i class="material-icons" ng-click="buscar = ''" style="cursor: pointer;">close</i>
          </div>
      </form>
  </div>
@@ -13,16 +13,29 @@
  <!--Notas-->
  <div class="col s12 m12 l12" id="notas">
      <div class="row">
-         <div class="col s12 m6 l4" ng-repeat="Notes in NoteList | filter:buscar track by $index">
-             <div class="card {{color}} hoverable">
-                 <div class="card-content black-text {{flow}}">
+         <div class="col s12">
+             <a class="waves-effect waves-light btn yellow darken-1" ng-click="sortType = 'creationDate'; sortReverse = !sortReverse">
+                 <i class="material-icons left">sort</i>Creación
+             </a>
+             <a class="waves-effect waves-light btn yellow darken-1" ng-click="sortType = 'editedDate'; sortReverse = !sortReverse">
+                 <i class="material-icons left">sort</i>Edición
+             </a>
+         </div>
+     </div>
+     <div class="row">
+         <div class="col s12 m6 l4" ng-repeat="Notes in NoteList | orderBy:sortType:sortReverse | filter:buscar track by $index">
+             <div class="card hoverable" ng-class="Notes.color">
+                 <div class="card-content black-text" ng-class="{'flow-text': Notes.isLargeText}">
                      <span class="card-title">{{ Notes.title }}</span>
-                     <p>{{ Notes.message }}</p>
+                     <p ng-bind-html="Notes.message | trusted"></p>
+                     <br>
+                     <p class="grey-text" style="font-size: 0.8rem;">Creado: {{ Notes.creationDate | date:'medium' }}</p>
+                     <p class="grey-text" style="font-size: 0.8rem;" ng-show="Notes.editedDate">Editado: {{ Notes.editedDate | date:'medium' }}</p>
                  </div>
                  <div class="card-action">
-                     <a href="#" class="black-text waves-effect waves-gray" ng-click='addRemoveColorClass()'><i
+                     <a href="#" class="black-text waves-effect waves-gray" ng-click='addRemoveColorClass(Notes)'><i
                              class="material-icons">color_lens</i></a>
-                     <a href="#" class="black-text waves-effect waves-gray" ng-click='addRemoveFlowClass($index)'><i
+                     <a href="#" class="black-text waves-effect waves-gray" ng-click='addRemoveFlowClass(Notes)'><i
                              class="material-icons">text_fields</i></a>
                      <!--<a href="#" class="grey-text"><i class="material-icons">attach_file</i></a>
                      <a href="#" class="grey-text"><i class="material-icons">archive</i></a>-->

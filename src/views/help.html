@@ -1,0 +1,69 @@
+<div class="container">
+    <h2 class="center-align">Centro de Ayuda</h2>
+    <p class="center-align grey-text">¿Cómo podemos ayudarte hoy?</p>
+    <br>
+
+    <div class="row">
+        <div class="col s12 m6">
+            <div class="card hoverable">
+                <div class="card-content">
+                    <span class="card-title"><i class="material-icons left">info</i>Acerca de</span>
+                    <p>Conoce más sobre la aplicación, su versión y el equipo de desarrollo.</p>
+                </div>
+                <div class="card-action">
+                    <a href="#!/About" class="yellow-text text-darken-2">Ver más</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 m6">
+            <div class="card hoverable">
+                <div class="card-content">
+                    <span class="card-title"><i class="material-icons left">gavel</i>Términos</span>
+                    <p>Lee nuestros términos y condiciones y política de privacidad.</p>
+                </div>
+                <div class="card-action">
+                    <a href="#!/Terms" class="yellow-text text-darken-2">Leer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <ul class="collapsible">
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">question_answer</i>Preguntas Frecuentes (FAQ)</div>
+                    <div class="collapsible-body">
+                        <span>
+                            <b>¿Cómo creo una nota?</b><br>
+                            Pulsa el botón flotante con el lápiz en la pantalla principal.<br><br>
+                            <b>¿Cómo cambio el color?</b><br>
+                            En la tarjeta de la nota, pulsa el icono de la paleta de colores.<br><br>
+                            <b>¿Se guardan mis notas en la nube?</b><br>
+                            No, actualmente se guardan en tu dispositivo (LocalStorage).
+                        </span>
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">email</i>Contacto</div>
+                    <div class="collapsible-body"><span>Para soporte, contáctanos en support@metalsyntax.com</span></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large waves-effect waves-light grey" href="#!/">
+            <i class="material-icons">arrow_back</i>
+        </a>
+    </div>
+</div>
+
+<script>
+    // Initialize collapsible
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.collapsible');
+        var instances = M.Collapsible.init(elems);
+    });
+</script>

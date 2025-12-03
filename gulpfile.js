@@ -8,32 +8,32 @@ var browserSync = require('browser-sync').create();
 var debug = require('gulp-debug');
 
 gulp.task('minify-js', function () {
-    return gulp.src('js/app.js')
+    return gulp.src('src/js/app.js')
         .pipe(concat('app.min.js'))
         .pipe(uglify())
-        .pipe(gulp.dest('build/'))
+        .pipe(gulp.dest('dist/js/'))
         .pipe(debug({
             title: 'Minificar JS'
         }));
 });
 
 gulp.task('minify-css', function () {
-    return gulp.src('css/style.css')
+    return gulp.src('dist/css/style.css')
         .pipe(concat('style.min.css'))
         .pipe(minifycss())
-        .pipe(gulp.dest('build/'))
+        .pipe(gulp.dest('dist/css/'))
         .pipe(debug({
             title: 'Minificar CSS'
         }));
 });
 
 gulp.task('typescript', function () {
-    return gulp.src('ts/*.ts')
+    return gulp.src('src/ts/*.ts')
         .pipe(ts({
             noImplicitAny: true,
             outFile: 'extend.js'
         }))
-        .pipe(gulp.dest('js/'))
+        .pipe(gulp.dest('src/js/'))
         .pipe(debug({
             title: 'Compilar TS'
         }));
@@ -42,17 +42,17 @@ gulp.task('typescript', function () {
 sass.compiler = require('node-sass');
 
 gulp.task('sass', function () {
-    return gulp.src('sass/*.sass')
+    return gulp.src('src/styles/*.sass')
         .pipe(sass().on('error', sass.logError))
-        .pipe(gulp.dest('css/'))
+        .pipe(gulp.dest('dist/css/'))
         .pipe(debug({
             title: 'Compilar SASS'
         }));
 });
 
 gulp.task('watch', function () {
-    gulp.watch('css/*.css', gulp.series('minify-css'), gulp.on('change', browserSync.reload));
-    gulp.watch('js/*.js', gulp.series('minify-js'), gulp.on('change', browserSync.reload));
-    gulp.watch('ts/*.ts', gulp.series('typescript'), gulp.on('change', browserSync.reload));
-    gulp.watch('sass/*.sass', gulp.series('sass'), gulp.on('change', browserSync.reload));
+    gulp.watch('dist/css/*.css', gulp.series('minify-css'), gulp.on('change', browserSync.reload));
+    gulp.watch('src/js/*.js', gulp.series('minify-js'), gulp.on('change', browserSync.reload));
+    gulp.watch('src/ts/*.ts', gulp.series('typescript'), gulp.on('change', browserSync.reload));
+    gulp.watch('src/styles/*.sass', gulp.series('sass'), gulp.on('change', browserSync.reload));
 });
