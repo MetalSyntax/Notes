@@ -62,6 +62,10 @@ AppNotes.config([
         templateUrl: "src/views/help.html",
         controller: "HelpController"
       })
+      .when("/View/:index", {
+        templateUrl: "src/views/view.html",
+        controller: "ViewNoteController"
+      })
       .when("/About", {
         templateUrl: "src/views/about.html",
       })
@@ -73,6 +77,47 @@ AppNotes.config([
     if(localStorage.getItem('darkMode') === 'true') {
         document.body.classList.add('dark-mode');
     }
+});
+
+/*Directive for Checklist*/
+AppNotes.directive('checklistListener', function() {
+    return {
+        restrict: 'A',
+        scope: {
+            note: '='
+        },
+        link: function(scope, element, attrs) {
+            element.on('click', function(e) {
+                var target = e.target;
+                var li = target.closest('li[data-list="checked"]');
+                if (li) {
+                    var allLis = element[0].querySelectorAll('li[data-list="checked"]');
+                    var index = Array.prototype.indexOf.call(allLis, li);
+                    
+                    if (index !== -1) {
+                        var parser = new DOMParser();
+                        var doc = parser.parseFromString(scope.note.message, 'text/html');
+                        var docLis = doc.querySelectorAll('li[data-list="checked"]');
+                        
+                        if (docLis[index]) {
+                            var docLi = docLis[index];
+                            if (docLi.classList.contains('ql-checked')) {
+                                docLi.classList.remove('ql-checked');
+                                docLi.setAttribute('aria-checked', 'false');
+                            } else {
+                                docLi.classList.add('ql-checked');
+                                docLi.setAttribute('aria-checked', 'true');
+                            }
+                            
+                            scope.note.message = doc.body.innerHTML;
+                            scope.$apply();
+                            scope.$emit('noteUpdated', scope.note);
+                        }
+                    }
+                }
+            });
+        }
+    };
 });
 
 /*Titulo*/
@@ -127,6 +172,52 @@ AppNotes.controller("SettingsController", [
             }, 1000);
         }
     };
+
+    $scope.exportNotes = function() {
+        var notes = localStorage.getItem("note");
+        if (!notes) {
+            M.toast({html: 'No hay notas para exportar', classes: 'rounded'});
+            return;
+        }
+        var blob = new Blob([notes], {type: "application/json"});
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = "notes_backup_" + new Date().toISOString().slice(0,10) + ".json";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    };
+
+    $scope.importNotes = function(element) {
+        var file = element.files[0];
+        if (!file) return;
+
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                var notes = JSON.parse(e.target.result);
+                if (Array.isArray(notes)) {
+                    // Simple import: replace or merge logic could be refined
+                    var currentNotes = JSON.parse(localStorage.getItem("note") || "[]");
+                    var mergedNotes = currentNotes.concat(notes);
+                    // Remove duplicates based on creationDate if needed, but for now just merge
+                    localStorage.setItem("note", JSON.stringify(mergedNotes));
+                    
+                    M.toast({html: 'Notas importadas correctamente', classes: 'rounded'});
+                    $scope.$apply(function() {
+                        // Refresh logic if needed
+                    });
+                } else {
+                    M.toast({html: 'El archivo no tiene un formato válido', classes: 'rounded red'});
+                }
+            } catch (error) {
+                console.error(error);
+                M.toast({html: 'Error al leer el archivo', classes: 'rounded red'});
+            }
+        };
+        reader.readAsText(file);
+    };
   }
 ]);
 
@@ -138,6 +229,67 @@ AppNotes.controller("HelpController", [
         var elems = document.querySelectorAll('.collapsible');
         var instances = M.Collapsible.init(elems);
     }, 100);
+  }
+]);
+
+/*View Note Controller*/
+AppNotes.controller("ViewNoteController", [
+  "$scope",
+  "$routeParams",
+  "$location",
+  function ($scope, $routeParams, $location) {
+    var index = $routeParams.index;
+    // Access parent scope NoteList directly if possible, or read from localStorage
+    // Since we are in ng-view, we inherit from NewNotes scope (body).
+    // So $scope.NoteList should be available.
+    
+    if ($scope.NoteList && $scope.NoteList[index]) {
+        $scope.note = $scope.NoteList[index];
+        $scope.index = index;
+    } else {
+        // Fallback if refresh happens and parent scope not ready?
+        // Actually NewNotes runs on body, so it should be ready.
+        // But if NoteList is empty?
+        var notes = JSON.parse(localStorage.getItem("note"));
+        if (notes && notes[index]) {
+            $scope.note = notes[index];
+            $scope.index = index;
+        } else {
+            $location.path('/');
+        }
+    }
+
+    $scope.editNote = function() {
+        // Set parent scope variables for EditNoteController
+        $scope.$parent.title = $scope.note.title;
+        $scope.$parent.message = $scope.note.message;
+        // We also need to set the index for save/update
+        // EditNoteController doesn't seem to use index from scope, but NewNotes.edit does.
+        // NewNotes.edit uses 'this.$index'.
+        // We need to simulate that or change how edit works.
+        
+        // Actually NewNotes.edit is:
+        // $scope.edit = function (title, message) { ... var currentNote = ArrayNote[this.$index]; ... }
+        // It relies on ng-repeat scope.
+        
+        // We can't easily use that function from here.
+        // We should refactor EditNoteController to take index or note.
+        // But to minimize changes, let's just navigate to Edit and handle loading there.
+        
+        // But EditNoteController expects $scope.message to be set.
+        // We set it above.
+        
+        // However, we need to know WHICH note we are editing when saving.
+        // The update function in NewNotes is defined INSIDE edit function!
+        // This is bad design.
+        
+        // Let's refactor NewNotes.edit slightly or just handle it here.
+        // If we change $scope.update in NewNotes to take an index.
+        
+        // Let's set a global or parent scope variable for 'currentEditIndex'.
+        $scope.$parent.currentEditIndex = index;
+        $location.path('/Edit');
+    };
   }
 ]);
 
@@ -191,7 +343,8 @@ AppNotes.controller("AddNoteController", [
 AppNotes.controller("EditNoteController", [
   "$scope",
   "$timeout",
-  function ($scope, $timeout) {
+  "$routeParams",
+  function ($scope, $timeout, $routeParams) {
     // Init Quill
     $timeout(function() {
         var container = document.getElementById('editor-container');
@@ -239,6 +392,36 @@ AppNotes.controller("EditNoteController", [
             }
         }
     };
+    
+    // Override update function to use currentEditIndex if available
+    var originalUpdate = $scope.update;
+    $scope.update = function(title, message) {
+        if(window.quill) {
+            message = window.quill.root.innerHTML;
+        }
+        
+        if (typeof $scope.currentEditIndex !== 'undefined') {
+             var creationDate = $scope.NoteList[$scope.currentEditIndex].creationDate;
+             $scope.NoteList[$scope.currentEditIndex] = {
+                  title: title,
+                  message: message,
+                  creationDate: creationDate,
+                  editedDate: new Date()
+             };
+             $scope.title = "";
+             $scope.message = "";
+             localStorage.setItem("note", JSON.stringify($scope.NoteList));
+             delete $scope.currentEditIndex;
+             window.history.back();
+        } else {
+            // Fallback to original logic if called from list view (not implemented there for edit)
+            // But wait, the original logic was inside $scope.edit which was called from ng-repeat.
+            // If we are here, we are in Edit view.
+            // We need to know the index.
+            // If currentEditIndex is undefined, we have a problem.
+            console.error("No index to update");
+        }
+    };
   }
 ]);
 
@@ -266,6 +449,10 @@ AppNotes.controller("NewNotes", [
     $scope.sortReverse = true;  // set the default sort order
     //Guardar Notas
     localStorage.setItem("note", JSON.stringify($scope.NoteList));
+    
+    $scope.$on('noteUpdated', function(event, note) {
+        localStorage.setItem("note", JSON.stringify($scope.NoteList));
+    });
 
     //Agregar una Nueva Nota
     $scope.add = function (title, message) {

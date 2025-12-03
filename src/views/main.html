@@ -1,60 +1,79 @@
- <!--Buscador-->
- <div class="nav-wrapper z-depth-2" id="buscador">
+<!--Buscador Flotante (Limpio)-->
+ <div class="search-container" id="buscador">
      <form>
          <div class="input-field">
-             <input id="search" type="search" ng-model="buscar" />
+             <input id="search" type="search" ng-model="buscar" placeholder="Buscar notas..." required autocomplete="off">
              <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-             <i class="material-icons" ng-click="buscar = ''" style="cursor: pointer;">close</i>
+             <i class="material-icons close-icon" ng-click="buscar = ''" ng-show="buscar">close</i>
          </div>
      </form>
  </div>
- <!--Buscador-->
 
- <!--Notas-->
- <div class="col s12 m12 l12" id="notas">
-     <div class="row">
-         <div class="col s12">
-             <a class="waves-effect waves-light btn yellow darken-1" ng-click="sortType = 'creationDate'; sortReverse = !sortReverse">
-                 <i class="material-icons left">sort</i>Creación
+ <!--Contenedor Principal-->
+ <div class="container" style="width: 95%; max-width: 1200px; padding-bottom: 80px;">
+     <!--Filtros-->
+     <div class="row mb-2">
+         <div class="col s12 d-flex" style="padding-left: 15px;">
+             <span class="grey-text text-darken-1 hide-on-small-only" style="margin-right: 15px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;">Ordenar por:</span>
+             
+             <a class="waves-effect waves-dark sort-btn" ng-click="sortType = 'creationDate'; sortReverse = !sortReverse">
+                 <i class="material-icons">access_time</i>Creación
              </a>
-             <a class="waves-effect waves-light btn yellow darken-1" ng-click="sortType = 'editedDate'; sortReverse = !sortReverse">
-                 <i class="material-icons left">sort</i>Edición
+             <a class="waves-effect waves-dark sort-btn" ng-click="sortType = 'editedDate'; sortReverse = !sortReverse">
+                 <i class="material-icons">edit</i>Edición
              </a>
          </div>
      </div>
-     <div class="row">
+
+     <!--Lista de Notas-->
+     <div class="row" id="notas">
          <div class="col s12 m6 l4" ng-repeat="Notes in NoteList | orderBy:sortType:sortReverse | filter:buscar track by $index">
+             <!-- Tarjeta con estructura Flex -->
              <div class="card hoverable" ng-class="Notes.color">
-                 <div class="card-content black-text" ng-class="{'flow-text': Notes.isLargeText}">
-                     <span class="card-title">{{ Notes.title }}</span>
-                     <p ng-bind-html="Notes.message | trusted"></p>
-                     <br>
-                     <p class="grey-text" style="font-size: 0.8rem;">Creado: {{ Notes.creationDate | date:'medium' }}</p>
-                     <p class="grey-text" style="font-size: 0.8rem;" ng-show="Notes.editedDate">Editado: {{ Notes.editedDate | date:'medium' }}</p>
+                 <!-- NOTA: Se eliminó la clase 'black-text' dura para permitir que el modo oscuro funcione -->
+                 <div class="card-content" ng-class="{'flow-text': Notes.isLargeText}">
+                     <!-- Título -->
+                     <a href="#!/View/{{$index}}" class="card-title truncate" style="text-decoration: none; cursor: pointer;">
+                         {{ Notes.title || 'Nota sin título' }}
+                     </a>
+                     
+                     <!-- Contenido -->
+                     <div ng-bind-html="Notes.message | trusted" checklist-listener note="Notes" style="max-height: 120px; overflow: hidden; position: relative;"></div>
+                     
+                     <div class="divider" style="margin: 15px 0 10px 0; opacity: 0.15; background-color: currentColor;"></div>
+                     
+                     <!-- Fecha -->
+                     <div style="font-size: 0.75rem; opacity: 0.6; font-weight: 500; margin-bottom: 5px;">
+                         {{ Notes.creationDate | date:'MMM d, y' }}
+                     </div>
                  </div>
+                 
+                 <!-- Acciones (Footer Fijo Abajo) -->
                  <div class="card-action">
-                     <a href="#" class="black-text waves-effect waves-gray" ng-click='addRemoveColorClass(Notes)'><i
-                             class="material-icons">color_lens</i></a>
-                     <a href="#" class="black-text waves-effect waves-gray" ng-click='addRemoveFlowClass(Notes)'><i
-                             class="material-icons">text_fields</i></a>
-                     <!--<a href="#" class="grey-text"><i class="material-icons">attach_file</i></a>
-                     <a href="#" class="grey-text"><i class="material-icons">archive</i></a>-->
-                     <a href="#!/Edit" class="black-text waves-effect waves-gray" ng-click="edit(title,message)"><i
-                             class="material-icons">edit</i></a>
-                     <a href="#" class="black-text waves-effect waves-gray" ng-click="delete()"><i
-                             class="material-icons">delete</i></a>
-                     <!--<a href="#" class="grey-text"><i class="material-icons">more_vert</i></a>-->
+                     <button class="btn-icon waves-effect" ng-click='addRemoveColorClass(Notes); $event.stopPropagation()' title="Color">
+                         <i class="material-icons">color_lens</i>
+                     </button>
+                     
+                     <button class="btn-icon waves-effect" ng-click='addRemoveFlowClass(Notes); $event.stopPropagation()' title="Tamaño Texto">
+                         <i class="material-icons">text_fields</i>
+                     </button>
+                     
+                     <a href="#!/Edit" class="btn-icon waves-effect edit-btn" ng-click="edit(title,message); $event.stopPropagation()" title="Editar">
+                         <i class="material-icons">edit</i>
+                     </a>
+                     
+                     <button class="btn-icon waves-effect delete-btn" ng-click="delete(); $event.stopPropagation()" title="Borrar">
+                         <i class="material-icons">delete</i>
+                     </button>
                  </div>
              </div>
          </div>
      </div>
  </div>
- <!--Notas-->
 
- <!--Boton Flotante-->
+ <!--Boton Flotante (FAB)-->
  <div class="fixed-action-btn">
-     <a class="btn-floating btn-large modal-trigger waves-effect waves-yellow yellow darken-1 pulse" href="#!/Add">
-         <i class="large material-icons">mode_edit</i>
+     <a class="btn-floating btn-large waves-effect waves-light yellow darken-2 z-depth-4" href="#!/Add">
+         <i class="large material-icons" style="color: #fff;">add</i>
      </a>
  </div>
- <!--Boton Flotante-->

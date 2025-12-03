@@ -1,58 +1,94 @@
 <div class="container" ng-controller="SettingsController">
-    <h2>Ajustes</h2>
+    <!-- Header -->
+    <h2 class="header center-align" style="font-weight: 300; margin-top: 40px; margin-bottom: 30px;">Ajustes</h2>
     
-    <div class="row">
-        <form class="col s12">
-            <div class="row">
-                <div class="input-field col s12">
-                    <input id="userName" type="text" class="validate" ng-model="userName">
-                    <label for="userName" class="active">Nombre de Usuario</label>
-                </div>
+    <div class="settings-card z-depth-1" style="padding: 30px; border-radius: 16px; background-color: #fff;">
+        <!-- Sección Perfil -->
+        <div class="row">
+            <div class="col s12">
+                <h5 class="grey-text text-darken-1" style="margin-bottom: 20px;">Perfil</h5>
             </div>
-            <div class="row">
-                <div class="input-field col s12">
-                    <input id="userEmail" type="email" class="validate" ng-model="userEmail">
-                    <label for="userEmail" class="active">Correo Electrónico</label>
+            <form class="col s12">
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        <input id="userName" type="text" class="validate" ng-model="userName">
+                        <label for="userName" class="active">Nombre de Usuario</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <input id="userEmail" type="email" class="validate" ng-model="userEmail">
+                        <label for="userEmail" class="active">Correo Electrónico</label>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col s12">
-                    <div class="switch">
-                        <label>
-                            Modo Claro
-                            <input type="checkbox" ng-model="darkMode" ng-change="toggleDarkMode()">
-                            <span class="lever"></span>
-                            Modo Oscuro
-                        </label>
+                
+                <div class="row" style="margin-top: 15px;">
+                    <div class="col s12 d-flex-center" style="justify-content: space-between;">
+                         <div class="switch">
+                            <label style="font-size: 1.1rem;">
+                                Claro
+                                <input type="checkbox" ng-model="darkMode" ng-change="toggleDarkMode()">
+                                <span class="lever"></span>
+                                Oscuro
+                            </label>
+                        </div>
+                        
+                        <!-- Botón estilizado uniformemente -->
+                        <a class="waves-effect waves-light btn yellow darken-2 settings-btn" ng-click="saveSettings()">
+                            <i class="material-icons">save</i>Guardar
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="divider" style="margin: 30px 0;"></div>
+
+        <!-- Sección Copia de Seguridad -->
+        <div class="row">
+            <div class="col s12">
+                <h5 class="grey-text text-darken-1">Copia de Seguridad</h5>
+                <p class="grey-text" style="margin-bottom: 25px;">Exporta tus notas o restaura una copia anterior.</p>
+                
+                <!-- Contenedor Flex para alinear botones perfectamente -->
+                <div class="d-flex-center">
+                    <a class="waves-effect waves-light btn blue darken-1 settings-btn" ng-click="exportNotes()">
+                        <i class="material-icons">file_download</i>Exportar
+                    </a>
+                    
+                    <!-- Input de archivo ajustado -->
+                    <div class="file-field input-field" style="margin: 0;">
+                        <div class="btn green darken-1 settings-btn">
+                            <span><i class="material-icons" style="margin-right: 8px;">file_upload</i>Importar</span>
+                            <input type="file" id="importFile" onchange="angular.element(this).scope().importNotes(this)">
+                        </div>
+                        <div class="file-path-wrapper" style="display: none;">
+                            <input class="file-path validate" type="text">
+                        </div>
                     </div>
                 </div>
             </div>
-            <br>
-            <div class="row">
-                <div class="col s12">
-                    <a class="waves-effect waves-light btn yellow darken-1" ng-click="saveSettings()">
-                        <i class="material-icons left">save</i>Guardar
+        </div>
+
+        <div class="divider" style="margin: 30px 0;"></div>
+
+        <!-- Sección Zona de Peligro -->
+        <div class="row">
+            <div class="col s12">
+                <h5 class="red-text text-darken-1">Zona de Peligro</h5>
+                <div class="d-flex-center" style="justify-content: space-between; border: 1px solid #ffcdd2; background-color: #ffebee; padding: 20px; border-radius: 12px; margin-top: 10px;">
+                    <span class="red-text text-darken-4" style="font-weight: 500;">
+                        Estas acciones son irreversibles.
+                    </span>
+                    <a class="waves-effect waves-light btn red darken-2 settings-btn" ng-click="deleteAllNotes()">
+                        <i class="material-icons">delete_forever</i>Borrar Todo
                     </a>
                 </div>
             </div>
-        </form>
-    </div>
-
-    <div class="divider"></div>
-    <br>
-
-    <div class="row">
-        <div class="col s12">
-            <h5>Zona de Peligro</h5>
-            <p>Estas acciones no se pueden deshacer.</p>
-            <a class="waves-effect waves-light btn red" ng-click="deleteAllNotes()">
-                <i class="material-icons left">delete_forever</i>Borrar todas las notas
-            </a>
         </div>
     </div>
 
+    <!-- Botón volver -->
     <div class="fixed-action-btn">
-        <a class="btn-floating btn-large waves-effect waves-light grey" href="#!/">
+        <a class="btn-floating btn-large waves-effect waves-light grey darken-3 z-depth-2" href="#!/">
             <i class="material-icons">arrow_back</i>
         </a>
     </div>
